@@ -7,7 +7,7 @@ import './App.css'
 //import ContenedorTareas from './contenedorTareas'
 import { obtenerDatos } from './Js/API'
 import { guardarDatos } from './Js/API'
-
+import ListaTareas from './Componentes/ListaTareas'
 
 
 function App() {
