@@ -1,6 +1,4 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState,useEffect } from 'react'
 import './App.css'
 //import Tarea from './Componentes/Tarea'
 //import Titulo from './Componentes/titulo'
@@ -8,10 +6,21 @@ import './App.css'
 import { obtenerDatos } from './Js/API'
 import { guardarDatos } from './Js/API'
 import ListaTareas from './Componentes/ListaTareas'
+import Visualizacion from './Validaciones/Visualizacion'
 
 
 function App() {
   const [tituloTarea,setTituloTarea]=useState("")
+  const [listaTareas,setListaTareas]=useState(false)
+
+  const [data,setData]= useState([])
+  useEffect(()=>{
+      const traerDatos=async()=>{
+          const datos = await obtenerDatos();
+          setData(datos)
+          }
+          traerDatos()
+  },[data])
 
   const agregarTarea = async(e)=>{
     try {
@@ -20,9 +29,7 @@ function App() {
         titulo:tituloTarea
       }
       await guardarDatos(tarea)
-  
-    
-    
+      setListaTareas(!listaTareas);
     } catch (error) {
       console.log(error);
     }
@@ -30,8 +37,6 @@ function App() {
     
   /*<div className='div-contenedor'>
       <div className='contenedor'>
-          
-         
         <Titulo/>
         <Tarea/>
         <ContenedorTareas/>
@@ -42,7 +47,10 @@ function App() {
         <h1> Lista Tareas</h1>
         <input type='text' placeholder='ingrese su tarea' onChange={(e)=> setTituloTarea(e.target.value)}></input>
         <button onClick={agregarTarea}>Agregar Tarea</button>
+        <Visualizacion lista={data}/>
+ 
       </>
+      
   )
 }
 
